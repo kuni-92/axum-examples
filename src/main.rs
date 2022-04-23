@@ -2,7 +2,7 @@ use axum::extract::Form;
 use axum::response::Html;
 use axum::routing::get;
 use axum::Router;
-use serde::Deserialize;
+use sub::Request;
 
 #[tokio::main]
 async fn main() {
@@ -24,11 +24,6 @@ async fn sub_handler() -> Html<&'static str> {
     Html(include_str!("resources/sub.html"))
 }
 
-#[derive(Deserialize, Debug)]
-struct Input {
-    name: String
-}
-
-async fn sub_post_handler(Form(input): Form<Input>) {
+async fn sub_post_handler(Form(input): Form<Request>) {
     dbg!(&input);
 }
