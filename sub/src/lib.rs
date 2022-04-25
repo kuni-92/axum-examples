@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize)]
 pub struct Request {
     name: String
 }
@@ -20,9 +19,17 @@ pub struct Response {
 }
 
 impl Response {
-    pub fn new(status: String) -> Response {
+    pub fn new(status: &str) -> Response {
+        let status = String::from(status);
         Response {
             status,
+        }
+    }
+
+    pub fn to_string(&self) -> Result<String, String> {
+        match serde_json::to_string(&self) {
+            Ok(s) => Ok(s),
+            Err(_) => Err(String::from("Could not parse json.")),
         }
     }
 }

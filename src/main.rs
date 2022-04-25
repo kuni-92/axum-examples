@@ -1,8 +1,8 @@
 use axum::extract::Form;
-use axum::response::Html;
+use axum::response::{Html, IntoResponse};
 use axum::routing::get;
-use axum::Router;
-use sub::Request;
+use axum::{Json, Router};
+use sub::{Request, Response};
 
 #[tokio::main]
 async fn main() {
@@ -24,6 +24,7 @@ async fn sub_handler() -> Html<&'static str> {
     Html(include_str!("resources/sub.html"))
 }
 
-async fn sub_post_handler(Form(input): Form<Request>) {
-    dbg!(&input);
+async fn sub_post_handler(Form(input): Form<Request>) -> impl IntoResponse {
+    let response = Response::new("OK");
+    Json(response)
 }
